@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Bookings — Biz Bridge</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'expert-primary': '#3A5F76',
+            'expert-secondary': '#6DA9D2',
+            'expert-text': '#1F2D3D',
+            'expert-border': '#C0C0C0',
+            'expert-success': '#059669',
+            'expert-light-bg': '#f8f9fa'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .gradient-bg {
+      background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    }
+    .hover-card { 
+      transition: all 0.3s ease; 
+    }
+    .hover-card:hover { 
+      transform: translateY(-2px); 
+      box-shadow: 0 15px 35px -12px rgba(0, 0, 0, 0.15); 
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-expert-text min-h-screen">
+  <div class="max-w-6xl mx-auto py-12 px-6">
+    <div class="flex items-center justify-between mb-8">
+      <div class="flex items-center gap-4">
+        <div class="p-2 bg-expert-primary/10 rounded-full">
+          <svg class="w-6 h-6 text-expert-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+          </svg>
+        </div>
+        <h1 class="text-3xl font-semibold text-expert-primary">My Bookings</h1>
+      </div>
+      <a href="{{ url_for('home1_page') }}" class="inline-flex items-center gap-2 text-expert-text hover:text-expert-primary transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Back home
+      </a>
+    </div>
+
+    {% if bookings|length == 0 %}
+      <div class="bg-white p-8 rounded-xl shadow-lg border border-expert-border text-center">
+        <div class="p-4 bg-expert-primary/10 rounded-full inline-block mb-4">
+          <svg class="w-12 h-12 text-expert-primary/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-expert-text mb-2">No bookings found</h3>
+        <p class="text-expert-text/60">You haven't made any bookings yet.</p>
+      </div>
+    {% else %}
+      <div class="space-y-6">
+        {% for b in bookings %}
+          <div class="bg-white p-6 rounded-xl shadow-lg border border-expert-border hover-card">
+            <div class="flex gap-6 items-start">
+            
+              <div class="flex items-start gap-4 w-2/5">
+                <div class="w-24 h-24 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center ring-2 ring-expert-primary/20">
+                  {% if role == 'business' %}
+                    {% if b.expert_photo %}
+                      <img src="{{ url_for('uploaded_file', filename=b.expert_photo) }}" alt="{{ b.expert_name }}" class="w-full h-full object-cover"/>
+                    {% else %}
+                      <div class="text-xl font-semibold text-white bg-gradient-to-br from-expert-primary to-expert-secondary w-full h-full flex items-center justify-center">
+                        {{ (b.expert_name[0] if b.expert_name else 'E')|upper }}
+                      </div>
+                    {% endif %}
+                  {% else %}
+                    {% if b.business_photo %}
+                      <img src="{{ url_for('uploaded_file', filename=b.business_photo) }}" alt="{{ b.business_name }}" class="w-full h-full object-cover"/>
+                    {% else %}
+                      <div class="text-xl font-semibold text-white bg-gradient-to-br from-expert-primary to-expert-secondary w-full h-full flex items-center justify-center">
+                        {{ (b.business_name[0] if b.business_name else 'B')|upper }}
+                      </div>
+                    {% endif %}
+                  {% endif %}
+                </div>
+
+                <div>
+                  {% if role == 'business' %}
+                    <div class="font-semibold text-lg text-expert-text">{{ b.expert_name }}</div>
+                    <div class="text-sm text-expert-secondary font-medium">{{ b.expert_expertise or 'Expert' }}</div>
+                    <div class="text-sm mt-2 text-expert-text/70">Email: <span class="text-expert-text">{{ b.expert_email or '—' }}</span></div>
+                    <div class="text-sm text-expert-text/70">Phone: <span class="text-expert-text">{{ b.expert_phone or '—' }}</span></div>
+                    <div class="mt-2">
+                      <a href="{{ url_for('expert_detail', expert_id=b.expert_id) }}" class="text-sm text-expert-primary hover:underline">View expert profile</a>
+                    </div>
+                  {% else %}
+                    <div class="font-semibold text-lg text-expert-text">{{ b.business_name }}</div>
+                    <div class="text-sm text-expert-secondary font-medium">Business</div>
+                    <div class="text-sm mt-2 text-expert-text/70">Email: <span class="text-expert-text">{{ b.business_email or '—' }}</span></div>
+                    <div class="text-sm text-expert-text/70">Phone: <span class="text-expert-text">{{ b.business_phone or '—' }}</span></div>
+                  {% endif %}
+                </div>
+              </div>
+
+              <div class="flex-1 flex flex-col justify-between">
+                <div class="mb-4">
+                  <div class="text-sm text-expert-text/70 mb-1"><strong class="text-expert-text">Date:</strong> {{ b.booking_date or '—' }}</div>
+                  <div class="text-sm text-expert-text/70"><strong class="text-expert-text">Notes:</strong> {{ b.notes or '—' }}</div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                  <div class="bg-expert-light-bg p-3 rounded-lg">
+                    <div class="text-sm text-expert-text/70"><strong class="text-expert-text">Fee:</strong> <span class="text-expert-primary font-semibold">₹{{ '%.2f'|format(b.fee or 0) }}</span></div>
+                    <div class="text-sm text-expert-text/70"><strong class="text-expert-text">Payment:</strong> <span class="text-expert-success">{{ b.payment_status or 'pending' }}</span></div>
+                    <div class="text-sm text-expert-text/70"><strong class="text-expert-text">Status:</strong> <span class="text-expert-secondary">{{ b.status or 'pending' }}</span></div>
+                  </div>
+
+                  <div class="flex flex-col items-end gap-2">
+                    {% if b.status != 'cancelled' %}
+                      <form action="{{ url_for('cancel_booking', booking_id=b.id) }}" method="post" onsubmit="return confirm('Cancel this booking?');">
+                        <button type="submit" class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-medium transition-colors">Cancel booking</button>
+                      </form>
+                    {% else %}
+                      <div class="text-xs text-expert-text/50 bg-gray-100 px-3 py-1 rounded-full">Cancelled</div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>

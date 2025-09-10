@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Experts — Biz Bridge</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'expert-primary': '#3A5F76',
+            'expert-secondary': '#6DA9D2',
+            'expert-text': '#1F2D3D',
+            'expert-border': '#C0C0C0',
+            'expert-success': '#059669',
+            'expert-light-bg': '#f8f9fa'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .hover-card { 
+      transition: all 0.3s ease; 
+    }
+    .hover-card:hover { 
+      transform: translateY(-8px); 
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); 
+    }
+    .hover-card:hover .hover-icon { 
+      transform: scale(1.1); 
+    }
+    .hover-icon { 
+      transition: transform 0.3s ease; 
+    }
+    .search-input:focus {
+      border-color: #3A5F76;
+      box-shadow: 0 0 0 3px rgba(58, 95, 118, 0.1);
+    }
+    .gradient-bg {
+      background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    }
+    .category-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: white;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+      border-radius: 8px;
+      border: 1px solid #C0C0C0;
+      top: 100%;
+      right: 0;
+      margin-top: 4px;
+    }
+    .dropdown-content a {
+      color: #1F2D3D;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      border-radius: 8px;
+      margin: 4px;
+      transition: background-color 0.2s;
+    }
+    .dropdown-content a:hover {
+      background-color: #f8f9fa;
+    }
+    .show {
+      display: block;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-expert-text min-h-screen">
+  
+  <div class="gradient-bg border-b border-expert-border">
+    <div class="max-w-6xl mx-auto py-8 px-6">
+      <div class="flex justify-between items-start mb-4">
+        
+        <div class="flex items-center gap-4">
+          <div class="p-2 bg-expert-primary/10 rounded-full">
+            <svg class="w-6 h-6 text-expert-primary hover-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-3xl font-bold text-expert-primary">Expert Directory</h1>
+            <p class="text-expert-text/70 mt-1">
+              Find and connect with professional experts
+            </p>
+          </div>
+        </div>
+        
+
+        <a href="{{ url_for('home1_page') }}" class="inline-flex items-center gap-2 text-expert-text/70 hover:text-expert-primary transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Back home
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-6xl mx-auto py-8 px-6">
+    <div class="bg-white rounded-xl shadow-lg border border-expert-border p-6 mb-8">
+      <form id="search-form" method="GET" action="{{ url_for('experts_directory') }}">
+        <div class="flex gap-4">
+          <div class="relative flex-1">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-expert-text/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+            </div>
+            <input type="text" 
+                   name="search" 
+                   value="{{ request.args.get('search', '') }}"
+                   placeholder="Search by name or expertise..." 
+                   class="search-input w-full pl-10 pr-4 py-3 border border-expert-border rounded-lg focus:outline-none transition-all">
+          </div>
+          
+          <div class="category-dropdown">
+            <button type="button" onclick="toggleDropdown()" class="inline-flex items-center gap-2 px-4 py-3 border border-expert-border rounded-lg bg-white hover:bg-expert-primary/5 transition-all text-expert-text font-medium">
+              <span id="category-text">All Categories</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div id="categoryDropdown" class="dropdown-content">
+              <a href="#" onclick="selectCategory('all')">All Categories</a>
+              <a href="#" onclick="selectCategory('IT')">IT</a>
+              <a href="#" onclick="selectCategory('Legal')">Legal</a>
+              <a href="#" onclick="selectCategory('Finance')">Finance</a>
+            </div>
+            <input type="hidden" name="category" id="category-input" value="{{ request.args.get('category', '') }}">
+          </div>
+        </div>
+      </form>
+    </div>
+
+    
+    <div class="mb-6">
+      <p class="text-expert-text/60">
+        {% if request.args.get('search') and request.args.get('category') %}
+          Showing {% if experts %}{{ experts|length }}{% else %}0{% endif %} experts for "{{ request.args.get('search') }}" in {{ request.args.get('category') }}
+        {% elif request.args.get('search') %}
+          Showing {% if experts %}{{ experts|length }}{% else %}0{% endif %} experts for "{{ request.args.get('search') }}"
+        {% elif request.args.get('category') %}
+          Showing {% if experts %}{{ experts|length }}{% else %}0{% endif %} {{ request.args.get('category') }} experts
+        {% else %}
+          Showing {% if experts %}{{ experts|length }}{% else %}0{% endif %} experts
+        {% endif %}
+      </p>
+    </div>
+
+  
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for e in experts %}
+        <article class="bg-white p-6 rounded-xl shadow-md hover:shadow-2xl transition-all hover-card border border-expert-border/50">
+          <a href="{{ url_for('expert_detail', expert_id=e.id) }}" class="block">
+            <div class="flex items-center gap-4 mb-4">
+              {% if e.profile_image %}
+                <img src="{{ url_for('uploaded_file', filename=e.profile_image) }}" 
+                     class="w-16 h-16 object-cover rounded-full ring-2 ring-expert-primary/20" />
+              {% else %}
+                <div class="w-16 h-16 bg-gradient-to-br from-expert-primary to-expert-secondary rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                  {{ (e.name[0] if e.name else 'E')|upper }}
+                </div>
+              {% endif %}
+              <div class="flex-1">
+                <h3 class="font-semibold text-lg text-expert-text">{{ e.name }}</h3>
+                <p class="text-sm text-expert-secondary font-medium">{{ e.expertise or 'Expert' }}</p>
+                <div class="flex items-center gap-1 mt-1">
+                  <svg class="w-4 h-4 text-expert-text/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  <span class="text-xs text-expert-text/60">{{ e.experience_years }} years experience</span>
+                </div>
+              </div>
+            </div>
+            
+            {% if e.bio %}
+              <p class="text-sm text-expert-text/70 mb-4 line-clamp-2">{{ e.bio }}</p>
+            {% endif %}
+          </a>
+
+          
+          <div class="flex items-center justify-between mb-4 p-3 bg-expert-light-bg rounded-lg">
+            <span class="text-sm font-medium text-expert-text">Consultation Fee</span>
+            <span class="text-lg font-bold text-expert-primary">₹{{ '%.2f'|format(e.fee or 0) }}</span>
+          </div>
+
+          
+          <div class="flex gap-3">
+            <a href="{{ url_for('expert_detail', expert_id=e.id) }}" 
+               class="flex-1 px-4 py-2.5 text-sm rounded-lg border border-expert-border text-expert-primary hover:bg-expert-primary/5 transition-all text-center font-medium">
+              View Profile
+            </a>
+
+            <!-- Book & Pay -->
+            {% if user and (user.get('role','')|lower == 'business') %}
+              <a href="{{ url_for('checkout', expert_id=e.id) }}" 
+                 class="flex-1 px-4 py-2.5 text-sm rounded-lg bg-expert-primary hover:bg-expert-primary/90 text-white transition-all text-center font-medium shadow-md">
+                Book & Pay
+              </a>
+            {% else %}
+              <a href="{{ url_for('signin_page') }}" 
+                 class="flex-1 px-4 py-2.5 text-sm rounded-lg bg-expert-secondary hover:bg-expert-secondary/90 text-white transition-all text-center font-medium shadow-md">
+                Sign in to Book
+              </a>
+            {% endif %}
+          </div>
+        </article>
+      {% else %}
+        
+        <div class="col-span-full flex flex-col items-center justify-center py-16">
+          <div class="p-4 bg-expert-primary/10 rounded-full mb-4">
+            <svg class="w-12 h-12 text-expert-primary/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-expert-text mb-2">
+            {% if request.args.get('search') or request.args.get('category') %}
+              No experts found
+            {% else %}
+              No experts found
+            {% endif %}
+          </h3>
+          <p class="text-expert-text/60 text-center max-w-md">
+            {% if request.args.get('search') or request.args.get('category') %}
+              Try searching with different keywords or selecting a different category.
+            {% else %}
+              We couldn't find any experts at the moment. Please check back later.
+            {% endif %}
+          </p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <script>
+    // Search functionality
+    let searchTimeout;
+    const searchInput = document.querySelector('input[name="search"]');
+    
+    if (searchInput) {
+      searchInput.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+          document.getElementById('search-form').submit();
+        }, 500); 
+      });
+    }
+
+    // Category dropdown functionality
+    function toggleDropdown() {
+      document.getElementById("categoryDropdown").classList.toggle("show");
+    }
+
+    function selectCategory(category) {
+      const categoryInput = document.getElementById('category-input');
+      const categoryText = document.getElementById('category-text');
+      
+      if (category === 'all') {
+        categoryInput.value = '';
+        categoryText.textContent = 'All Categories';
+      } else {
+        categoryInput.value = category;
+        categoryText.textContent = category;
+      }
+      
+      // Hide dropdown
+      document.getElementById("categoryDropdown").classList.remove("show");
+      
+      // Submit form
+      document.getElementById('search-form').submit();
+    }
+
+    // Close dropdown when clicking outside
+    window.onclick = function(event) {
+      if (!event.target.matches('.category-dropdown *')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        for (var i = 0; i < dropdowns.length; i++) {
+          dropdowns[i].classList.remove('show');
+        }
+      }
+    }
+
+    // Set initial category text on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const categoryValue = document.getElementById('category-input').value;
+      const categoryText = document.getElementById('category-text');
+      
+      if (categoryValue && categoryValue !== '') {
+        categoryText.textContent = categoryValue;
+      }
+    });
+  </script>
+</body>
+</html>

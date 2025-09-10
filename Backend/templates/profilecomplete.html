@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Complete Profile — Biz Bridge</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'expert-primary': '#3A5F76',
+            'expert-secondary': '#6DA9D2',
+            'expert-text': '#1F2D3D',
+            'expert-border': '#C0C0C0',
+            'expert-light-bg': '#f8f9fa'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-expert-light-bg text-expert-text min-h-screen">
+  <div class="max-w-4xl mx-auto py-12 px-6">
+    <div class="bg-white p-6 rounded-2xl shadow-lg">
+      <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl font-semibold text-expert-primary">Complete your profile</h1>
+        <div>
+          <a href="{{ url_for('home1_page') }}" class="px-3 py-2 rounded-md text-sm text-expert-text hover:text-expert-primary">Back home</a>
+        </div>
+      </div>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="space-y-2 mb-4">
+            {% for cat, msg in messages %}
+              <div class="p-3 rounded {{ 'bg-green-50 text-green-700' if cat == 'success' else 'bg-red-50 text-red-700' }}">{{ msg }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <form action="{{ url_for('complete_profile') }}" method="post" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="space-y-4">
+          <label class="block text-sm font-medium">Full name</label>
+          <input type="text" readonly value="{{ user.name }}" class="w-full p-3 border rounded-md bg-gray-50 border-expert-border" />
+
+          <label class="block text-sm font-medium">Email</label>
+          <input type="email" readonly value="{{ user.email }}" class="w-full p-3 border rounded-md bg-gray-50 border-expert-border" />
+
+          <label class="block text-sm font-medium">Phone number</label>
+          <input type="text" name="phone" value="{{ profile.phone if profile else '' }}" placeholder="10 digit phone" class="w-full p-3 border rounded-md" />
+        </div>
+
+        <!-- right column: role-specific fields -->
+        <div class="space-y-4">
+          {% if user.role == 'expert' %}
+            <label class="block text-sm font-medium">Expertise / Category</label>
+            <input type="text" name="expertise" value="{{ profile.expertise if profile else '' }}" placeholder="E.g. Finance, Legal, IT" class="w-full p-3 border rounded-md" />
+
+            <label class="block text-sm font-medium">Experience (years)</label>
+            <input type="number" name="experience_years" min="0" value="{{ profile.experience_years if profile else 0 }}" class="w-full p-3 border rounded-md" />
+
+            <label class="block text-sm font-medium">Consultation fee (INR)</label>
+            <input type="number" step="0.01" name="fee" value="{{ profile.fee if profile and profile.fee else 0 }}" class="w-full p-3 border rounded-md" />
+
+            <label class="block text-sm font-medium">Availability (short)</label>
+            <input type="text" name="availability" value="{{ profile.availability if profile else '' }}" placeholder="E.g. Mon-Fri 10:00-16:00" class="w-full p-3 border rounded-md" />
+
+            <label class="block text-sm font-medium">Short bio</label>
+            <textarea name="bio" rows="4" placeholder="A short professional bio" class="w-full p-3 border rounded-md">{{ profile.bio if profile and profile.bio else '' }}</textarea>
+
+            <label class="block text-sm font-medium">Profile photo</label>
+            {% if profile.profile_image %}
+              <div class="flex items-center gap-3 mb-2">
+                <img src="{{ url_for('uploaded_file', filename=profile.profile_image) }}" class="w-16 h-16 object-cover rounded-full border" />
+                <div class="text-sm text-gray-600">Current image</div>
+              </div>
+            {% endif %}
+            <input type="file" name="profile_image" accept="image/*" class="w-full p-2" />
+
+            <div class="text-sm text-gray-600 mt-2">After submitting, you'll be visible in the Experts directory.</div>
+
+          {% else %}
+            <!-- Business fields -->
+            <label class="block text-sm font-medium">Business name</label>
+            <input type="text" name="business_name" value="{{ profile.business_name if profile else '' }}" placeholder="Your business display name" class="w-full p-3 border rounded-md" />
+
+            <label class="block text-sm font-medium">Short bio / description</label>
+            <textarea name="bio" rows="4" placeholder="Brief about your business" class="w-full p-3 border rounded-md">{{ profile.bio if profile else '' }}</textarea>
+
+            <label class="block text-sm font-medium">Business photo / logo</label>
+            {% if profile.photo %}
+              <div class="flex items-center gap-3 mb-2">
+                <img src="{{ url_for('uploaded_file', filename=profile.photo) }}" class="w-16 h-16 object-cover rounded-md border" />
+                <div class="text-sm text-gray-600">Current image</div>
+              </div>
+            {% endif %}
+            <input type="file" name="profile_image" accept="image/*" class="w-full p-2" />
+
+            <div class="text-sm text-gray-600 mt-2">This info remains private to your profile (not shown in the experts directory).</div>
+          {% endif %}
+        </div>
+
+        <div class="md:col-span-2 flex items-center gap-3 justify-end mt-2">
+          <a href="{{ url_for('home1_page') }}" class="px-4 py-2 border rounded-md text-sm">Cancel</a>
+          <button type="submit" class="px-5 py-2 rounded-md bg-expert-primary text-white">Save profile</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

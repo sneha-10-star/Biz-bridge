@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - Biz Bridge</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'expert-primary': '#3A5F76',
+            'expert-secondary': '#6DA9D2',
+            'expert-text': '#1F2D3D',
+            'expert-border': '#C0C0C0',
+            'expert-success': '#059669',
+            'expert-light-bg': '#f8f9fa',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gradient-to-br from-expert-light-bg to-white min-h-screen">
+  <div class="min-h-screen flex items-center justify-center py-8 px-4">
+    <div class="max-w-md w-full bg-white rounded-xl p-8">
+
+      <!-- Header -->
+      <div class="text-center mb-8">
+  <div class="flex items-center justify-center gap-3 mb-4">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" 
+         alt="Biz Bridge Logo" 
+         class="w-12 h-12 object-contain" />
+
+    <span class="text-xl font-semibold text-expert-primary">Biz Bridge</span>
+  </div>
+  <h1 class="text-2xl font-bold text-expert-primary mb-2">Create Account</h1>
+  <p class="text-expert-text/70">Join Biz Bridge and connect with professionals</p>
+</div>
+
+
+      <!-- Signup Form -->
+      <form id="signup-form" class="space-y-5">
+        <!-- Role Selection -->
+        <div>
+          <label class="block text-sm font-medium text-expert-text mb-3">I am a</label>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="relative cursor-pointer">
+              <input type="radio" name="role" value="expert" class="sr-only peer" required>
+              <div class="p-3 border-2 border-expert-border rounded-lg text-center transition-all peer-checked:border-expert-primary peer-checked:bg-expert-primary/5 hover:border-expert-secondary">
+                <span class="text-sm font-medium text-expert-text">Expert</span>
+              </div>
+            </label>
+            <label class="relative cursor-pointer">
+              <input type="radio" name="role" value="business" class="sr-only peer" required>
+              <div class="p-3 border-2 border-expert-border rounded-lg text-center transition-all peer-checked:border-expert-primary peer-checked:bg-expert-primary/5 hover:border-expert-secondary">
+                <span class="text-sm font-medium text-expert-text">Business</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label for="full-name" class="block text-sm font-medium text-expert-text mb-2">Full Name</label>
+          <input 
+            type="text" 
+            id="full-name" 
+            name="fullName"
+            required 
+            pattern="[A-Za-z\s]+"
+            title="Only letters and spaces are allowed"
+            class="w-full px-4 py-3 border border-expert-border rounded-lg focus:ring-2 focus:ring-expert-primary focus:border-transparent bg-white outline-none transition-all"
+            placeholder="Enter your full name"
+          >
+        </div>
+
+        <div>
+          <label for="email" class="block text-sm font-medium text-expert-text mb-2">Email</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email"
+            required 
+            class="w-full px-4 py-3 border border-expert-border rounded-lg focus:ring-2 focus:ring-expert-primary focus:border-transparent bg-white outline-none transition-all"
+            placeholder="your@email.com"
+          >
+        </div>
+
+        <div>
+          <label for="password" class="block text-sm font-medium text-expert-text mb-2">Password</label>
+          <div class="relative">
+            <input 
+              type="password" 
+              id="password" 
+              name="password"
+              required 
+              minlength="8"
+              class="w-full px-4 py-3 pr-12 border border-expert-border rounded-lg focus:ring-2 focus:ring-expert-primary focus:border-transparent bg-white outline-none transition-all"
+              placeholder="Create a strong password"
+            >
+            <button 
+              type="button" 
+              id="toggle-password"
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-expert-text hover:text-expert-primary border-none bg-transparent cursor-pointer"
+            >
+              <svg id="eye-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+              </svg>
+              <svg id="eye-closed" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
+              </svg>
+            </button>
+          </div>
+          <p class="mt-1 text-xs text-expert-text/60">Minimum 8 characters</p>
+        </div>
+
+        <div>
+          <label for="phone" class="block text-sm font-medium text-expert-text mb-2">Phone Number</label>
+          <input 
+            type="tel" 
+            id="phone" 
+            name="phone"
+            maxlength="10"
+            pattern="\d{10}"
+            required
+            class="w-full px-4 py-3 border border-expert-border rounded-lg focus:ring-2 focus:ring-expert-primary focus:border-transparent bg-white outline-none transition-all"
+            placeholder="Enter 10 digit phone number"
+          >
+        </div>
+
+        <button 
+          type="submit" 
+          id="signup-button"
+          class="w-full bg-expert-primary hover:bg-expert-primary/90 text-white py-3 px-4 rounded-lg font-semibold border-none cursor-pointer flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <span id="signup-text">Create Account</span>
+          <div id="signup-loading" class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin hidden"></div>
+        </button>
+      </form>
+
+      <!-- Error Message -->
+      <div id="error-message" class="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm hidden">
+        <span id="error-text"></span>
+      </div>
+
+      <!-- Success Message -->
+      <div id="success-message" class="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm hidden">
+        <span id="success-text"></span>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+  // Password toggle
+  document.getElementById('toggle-password').addEventListener('click', () => {
+      const passwordInput = document.getElementById('password');
+      const eyeOpen = document.getElementById('eye-open');
+      const eyeClosed = document.getElementById('eye-closed');
+      const type = passwordInput.type === 'password' ? 'text' : 'password';
+      passwordInput.type = type;
+      eyeOpen.classList.toggle('hidden', type === 'text');
+      eyeClosed.classList.toggle('hidden', type !== 'text');
+  });
+
+  // Clear error when user edits name
+  document.getElementById('full-name').addEventListener('input', () => {
+    const errorMessage = document.getElementById('error-message');
+    if (!errorMessage.classList.contains('hidden')) {
+      errorMessage.classList.add('hidden');
+      document.getElementById('error-text').textContent = '';
+    }
+  });
+
+  // Form submission
+  document.getElementById('signup-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Client-side name validation (only letters and spaces)
+      const fullNameInput = document.getElementById('full-name');
+      const fullNameValue = (fullNameInput.value || '').trim();
+      const nameRegex = /^[A-Za-z\s]+$/;
+      const errorMessage = document.getElementById('error-message');
+      const successMessage = document.getElementById('success-message');
+
+      if (!nameRegex.test(fullNameValue)) {
+          // Show error and stop submission
+          errorMessage.classList.remove('hidden');
+          document.getElementById('error-text').textContent = 'Please enter a valid name (letters and spaces only).';
+          return;
+      }
+
+      const button = document.getElementById('signup-button');
+      const buttonText = document.getElementById('signup-text');
+      const loading = document.getElementById('signup-loading');
+      
+      button.disabled = true;
+      buttonText.textContent = 'Creating Account...';
+      loading.classList.remove('hidden');
+      errorMessage.classList.add('hidden');
+      successMessage.classList.add('hidden');
+      
+      const formData = new FormData(e.target);
+      const role = formData.get('role');
+
+      // Always send clean 10 digit phone number
+      let phone = formData.get('phone').replace(/\D/g, '');
+
+      let data = {
+          role: role,
+          email: formData.get('email'),
+          password: formData.get('password'),
+          phone: phone
+      };
+
+      if (role === "expert") {
+          data.full_name = formData.get('fullName');
+      } else {
+          data.name = formData.get('fullName');
+      }
+
+      try {
+          const signupUrl = '/api/signup'  // <-- unchanged endpoint
+
+          const response = await fetch(signupUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(data),
+              credentials: 'same-origin'    // <-- ADDED so session cookie is saved
+          });
+
+          // parse response safely
+          const result = await response.json().catch(() => ({}));
+
+          if (response.ok) {
+              
+              const user = result.business || result.expert || result.user || null;
+
+              if (user) {
+                  if (result.business || role === 'business') {
+                      localStorage.setItem('business', JSON.stringify(user));
+                  } else {
+                      localStorage.setItem('expert', JSON.stringify(user));
+                  }
+              }
+
+              // show success message
+              successMessage.classList.remove('hidden');
+              document.getElementById('success-text').textContent = result.message || 'Account created successfully!';
+
+            
+              setTimeout(() => { window.location.href = '/home1.html'; }, 1000);
+
+          } else {
+              // show API error
+              const errMsg = result && (result.error || result.message) ? (result.error || result.message) : 'Something went wrong. Please try again.';
+              errorMessage.classList.remove('hidden');
+              document.getElementById('error-text').textContent = errMsg;
+          }
+
+      } catch (error) {
+          errorMessage.classList.remove('hidden');
+          document.getElementById('error-text').textContent = 'Network error. Please check your connection and try again.';
+      } finally {
+          button.disabled = false;
+          buttonText.textContent = 'Create Account';
+          loading.classList.add('hidden');
+      }
+  });
+  </script>
+</body>
+</html>

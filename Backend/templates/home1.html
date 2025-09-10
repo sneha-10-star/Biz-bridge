@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biz Bridge - Expert Consultation Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'expert-primary': '#3A5F76',
+            'expert-secondary': '#6DA9D2',
+            'expert-text': '#1F2D3D',
+            'expert-border': '#C0C0C0',
+            'expert-success': '#059669',
+            'expert-light-bg': '#f8f9fa',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; }
+    .mobile-menu.open { max-height: 500px; }
+    .hover-card { transition: all 0.3s ease; }
+    .hover-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+    .hover-card:hover .hover-icon { transform: scale(1.1); }
+    .hover-icon { transition: transform 0.3s ease; }
+  </style>
+</head>
+<body class="bg-gray-50 text-expert-text">
+  <!-- Navigation -->
+  <nav class="bg-white border-b border-expert-border sticky top-0 z-50 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+<div class="flex items-center gap-3 cursor-pointer">
+  <img src="{{ url_for('static', filename='images/logo.png') }}" 
+       alt="Biz Bridge Logo" 
+       class="w-10 h-10 object-contain"/>
+  <span class="text-xl font-semibold text-expert-primary">Biz Bridge</span>
+</div>
+        <div class="flex items-center gap-6">
+          {% if user %}
+            <!-- Profile Dropdown -->
+            <div class="relative">
+              <button id="profile-dropdown-btn" class="flex items-center gap-2 p-2 rounded-full hover:bg-gray-100 transition-colors">
+                {% if user.photo %}
+                  <img src="{{ url_for('uploaded_file', filename=user.photo) }}" alt="Profile" class="w-10 h-10 rounded-full object-cover"/>
+                {% else %}
+                  <div class="w-10 h-10 bg-expert-primary rounded-full flex items-center justify-center text-white font-semibold">
+                    {{ user.name[0].upper() if user.name else 'U' }}
+                  </div>
+                {% endif %}
+                <svg class="w-4 h-4 text-expert-text" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+
+              <!-- Dropdown Menu  -->
+              <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-expert-border py-2">
+            
+                <div class="px-4 py-3 border-b border-expert-border">
+                  <p class="text-sm font-semibold text-expert-text">{{ user.name if user.name else 'User' }}</p>
+                  <p class="text-xs text-expert-text/60 truncate">{{ user.email if user.email else 'user@example.com' }}</p>
+                </div>
+            
+                <a href="{{ url_for('complete_profile') }}" class="block px-4 py-2 text-sm text-expert-text hover:bg-gray-50 transition-colors">
+                  Complete Profile
+                </a>
+                <a href="{{ url_for('booking_details') }}" class="block px-4 py-2 text-sm text-expert-text hover:bg-gray-50 transition-colors">
+                  Booking Details
+                </a>
+              
+                <form method="POST" action="{{ url_for('logout') }}" class="mt-2">
+                  <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                    Logout
+                  </button>
+                </form>
+              </div>
+            </div>
+          {% else %}
+            
+            <div id="auth-section" class="flex items-center gap-4">
+              <a href="{{ url_for('signin_page') }}" class="text-expert-text hover:text-expert-primary transition-colors">Sign In</a>
+              <a href="{{ url_for('signup_page') }}" class="bg-expert-primary hover:bg-expert-primary/90 text-white px-4 py-2 rounded-lg transition-colors">Sign Up</a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section class="relative py-16 lg:py-24 overflow-hidden bg-gradient-to-br from-expert-light-bg to-white">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <h1 class="text-4xl lg:text-5xl font-bold text-expert-primary mb-6 leading-tight">
+            Welcome Back, {{ user.name.split()[0] if user.name else 'User' }}!
+          </h1>
+          <p class="text-xl text-expert-text/80 mb-8 leading-relaxed">
+            Continue your journey with expert consultation from verified Legal, Finance, and IT professionals. Book new sessions or manage your existing consultations.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="{{ url_for('experts_directory') }}" class="bg-expert-primary hover:bg-expert-primary/90 text-white px-8 py-3 text-lg rounded-lg shadow-lg hover:shadow-xl transition-all">
+              Browse Experts
+            </a>
+          </div>
+        </div>
+        <div class="relative">
+          <img src="{{ url_for('static', filename='images/experts.jpg') }}"
+               alt="Business consultation meeting" 
+               class="w-full h-[400px] lg:h-[500px] object-cover rounded-2xl shadow-2xl"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+
+          
+          <div class="hidden w-full h-[400px] lg:h-[500px] bg-gradient-to-br from-expert-secondary/20 to-expert-primary/20 rounded-2xl shadow-2xl flex items-center justify-center">
+            <div class="text-center">
+              <h3 class="text-2xl font-semibold text-expert-primary">Expert Consultation</h3>
+              <p class="text-expert-text/70 mt-2">Professional guidance for your business</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <script>
+    // Profile dropdown functionality
+    const dropdownBtn = document.getElementById('profile-dropdown-btn');
+    const dropdown = document.getElementById('profile-dropdown');
+    if (dropdownBtn && dropdown) {
+      dropdownBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        dropdown.classList.toggle('hidden');
+      });
+      document.addEventListener('click', function(e) {
+        if (!dropdownBtn.contains(e.target) && !dropdown.contains(e.target)) {
+          dropdown.classList.add('hidden');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

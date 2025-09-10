@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Payment — Scan QR</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .confirm-btn {
+      background: #3A5F76 ;
+      color: #fff ;
+      font-weight: 600;
+      padding: 12px 20px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body class="bg-expert-light-bg text-expert-text min-h-screen">
+  <div class="max-w-3xl mx-auto py-12 px-6">
+    <a href="{{ url_for('booking_details') }}" 
+       class="text-sm text-expert-text hover:text-expert-primary mb-4 inline-block">← Back to bookings</a>
+
+    <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+      <h2 class="text-xl font-semibold mb-4">Scan to Pay</h2>
+
+  
+      <div class="flex justify-center mb-6">
+        <a href="{{ upi_uri }}">
+          <img src="{{ qr_link }}" alt="Scan or tap to pay"
+               class="w-64 h-64 object-contain rounded bg-gray-100 p-4" />
+        </a>
+      </div>
+
+      
+      <p class="text-sm mt-2">
+         <a href="{{ upi_uri }}" class="text-expert-primary underline"> </a>
+      </p>
+
+  
+      <p class="text-sm text-expert-text/80 mb-4">
+        Scan or tap the QR using your UPI app and complete the payment.  
+        After paying, click the button below to confirm.
+      </p>
+
+    
+      <form action="{{ url_for('pay_confirm') }}" method="post">
+        <button type="submit" class="confirm-btn"> Confirm Payment</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

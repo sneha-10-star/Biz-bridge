@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Checkout — Booking</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'expert-primary': '#3A5F76',
+            'expert-secondary': '#6DA9D2',
+            'expert-text': '#1F2D3D',
+            'expert-border': '#C0C0C0',
+            'expert-success': '#059669',
+            'expert-light-bg': '#f8f9fa'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    
+    .fixed-pay-btn {
+      background: #3A5F76 !important;
+      color: #fff !important;
+      border: none !important;
+    }
+    .gradient-bg {
+      background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    }
+    .form-input:focus {
+      border-color: #3A5F76;
+      box-shadow: 0 0 0 3px rgba(58, 95, 118, 0.1);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-expert-text min-h-screen">
+  <div class="max-w-3xl mx-auto py-12 px-6">
+    <a href="{{ url_for('expert_detail', expert_id=expert.id) }}"
+        class="text-sm text-expert-text hover:text-expert-primary mb-6 inline-flex items-center gap-2 transition-colors">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+      </svg>
+      Back to profile
+    </a>
+
+    <div class="bg-white p-8 rounded-xl shadow-lg border border-expert-border">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="p-2 bg-expert-primary/10 rounded-full">
+          <svg class="w-6 h-6 text-expert-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+          </svg>
+        </div>
+        <h2 class="text-2xl font-semibold text-expert-primary">Booking — {{ expert.name }}</h2>
+      </div>
+
+      
+      <form action="{{ url_for('pay_qr') }}" method="post" class="space-y-6">
+        <input type="hidden" name="expert_id" value="{{ expert.id }}" />
+
+        <div>
+          <label class="block text-sm font-medium text-expert-text mb-2">Booking Date</label>
+          <input name="booking_date" type="text" placeholder="e.g. Mon 24 or Tue 30 Sep"
+                  class="form-input w-full p-3 border border-expert-border rounded-lg focus:outline-none transition-all" required />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-expert-text mb-2">Notes (optional)</label>
+          <textarea name="notes" rows="3" placeholder="Add any specific requirements or questions..."
+                    class="form-input w-full p-3 border border-expert-border rounded-lg focus:outline-none transition-all resize-none"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-expert-text mb-2">Consultation Fee</label>
+          <input type="text" readonly value="₹{{ '%.2f'|format(expert.fee or 0) }}"
+                  class="w-full p-3 border border-expert-border rounded-lg bg-expert-light-bg text-expert-primary font-semibold text-lg" />
+        </div>
+
+        
+        <div class="pt-4 border-t border-expert-border">
+          <div class="flex justify-end">
+            <button type="submit"
+                    class="px-8 py-3 rounded-lg text-white font-semibold fixed-pay-btn bg-expert-primary hover:bg-expert-primary/90 transition-all shadow-lg hover:shadow-xl"
+                    style="padding:12px 32px; font-weight:600;">
+              Pay & Confirm
+            </button>
+          </div>
+        </div>
+      </form>
+      <!-- /form -->
+    </div>
+  </div>
+</body>
+</html>
