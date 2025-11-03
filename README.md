@@ -14,8 +14,6 @@ Entrepreneurs can easily connect with **IT**, **Finance**, and **Legal** profess
 - ✅ Secure expert and startup data management with MongoDB  
 - ✅ Easy registration and login system  
 - ✅ Search and filter experts by category  
-- ✅ Admin dashboard to manage experts and users  
-- ✅ Modern and professional UI  
 
 ---
 
