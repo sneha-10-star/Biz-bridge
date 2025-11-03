@@ -1,38 +1,55 @@
-BizBridge
+# 🌐 BizBridge  
+**Connecting Startups with Experts in Legal, Financial & IT Domains**
 
-Connecting Startups with Experts in Legal, Financial & IT Domains
+BizBridge is a full-stack web platform that bridges the gap between **startups** and **domain experts**.  
+Entrepreneurs can easily connect with **IT**, **Finance**, and **Legal** professionals — all in one place.
 
-BizBridge is a full-stack web platform designed to bridge the gap between startups and domain experts.
-Entrepreneurs can find the right Legal, Finance, or IT expert for their needs — all in one place.
+---
 
-✨ Features
+## ✨ Features  
 
-✅ Connect startups with verified domain experts
-✅ Three expert categories: IT, Finance, and Legal
-✅ User-friendly and responsive interface
-✅ Secure expert and startup data storage using MongoDB
-✅ Easy registration and login system
-✅ Search and filter experts by category
-✅ Admin dashboard to manage experts and users
-✅ Clean, modern, and professional UI
+- ✅ Connect startups with verified experts  
+- ✅ Three expert categories: **IT**, **Finance**, and **Legal**  
+- ✅ Simple and responsive user interface  
+- ✅ Secure expert and startup data management with MongoDB  
+- ✅ Easy registration and login system  
+- ✅ Search and filter experts by category  
+- ✅ Admin dashboard to manage experts and users  
+- ✅ Modern and professional UI  
 
-🧠 Project Overview
+---
 
-BizBridge provides a centralized space for startups to connect with skilled professionals.
-Whether you need help with legal documentation, financial planning, or technical development,
-BizBridge makes expert collaboration fast, simple, and reliable.
+## 🧠 Project Overview  
 
-🛠️ Tech Stack
+BizBridge is designed to help startups collaborate with the right professionals.  
+Whether it’s **legal advice**, **financial planning**, or **technical support**,  
+BizBridge makes it simple to find and connect with trusted experts.
 
-Frontend: HTML, Tailwind CSS
-Backend: Node.js / Express.js
-Database: MongoDB
-Tools & Platforms:
+---
 
-VS Code
+## 🛠️ Tech Stack  
 
-Git & GitHub
+**Frontend:** HTML, Tailwind CSS  
+**Backend:** Python (Flask / Django)  
+**Database:** MongoDB  
+**Tools & Platforms:**  
+- VS Code  
+- Git & GitHub  
+- MongoDB Atlas / Compass  
+- Postman (API Testing)  
 
-MongoDB Atlas / Compass
+---
 
-Postman (for API testing)
+## ⚙️ Setup Instructions  
+
+Follow these steps to run the project locally 👇  
+
+1️⃣ **Install dependencies**  
+   - [Python](https://www.python.org/downloads/)  
+   - [MongoDB](https://www.mongodb.com/try/download/community)  
+
+---
+
+2️⃣ **Clone this repository**
+```bash
+git clone https://github.com/yourusername/BizBridge.git
