@@ -46,7 +46,7 @@ Follow these steps to run the project locally 👇
 
 1️⃣ **Install dependencies**  
    - [Python](https://www.python.org/downloads/)  
-   - [MongoDB](https://www.mongodb.com/try/download/community)  
+   - [MySQL](https://dev.mysql.com/downloads/installer/)  
 
 ---
 
