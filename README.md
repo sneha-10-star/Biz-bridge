@@ -28,8 +28,8 @@ BizBridge makes it simple to find and connect with trusted experts.
 ## 🛠️ Tech Stack  
 
 **Frontend:** HTML, Tailwind CSS  
-**Backend:** Python (Flask / Django)  
-**Database:** MongoDB  
+**Backend:** Python (Flask)  
+**Database:** MYSQL 
 **Tools & Platforms:**  
 - VS Code  
 - Git & GitHub  
