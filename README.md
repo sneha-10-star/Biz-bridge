@@ -33,7 +33,7 @@ BizBridge makes it simple to find and connect with trusted experts.
 **Tools & Platforms:**  
 - VS Code  
 - Git & GitHub  
-- MongoDB Atlas / Compass  
+- My sql Workbench  
 - Postman (API Testing)  
 
 ---
